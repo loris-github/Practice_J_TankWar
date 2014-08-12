@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 
 public class Tank {
 	public static final int XSPEED = 5;
@@ -11,7 +12,11 @@ public class Tank {
 	private int x , y;
 	private boolean good;
 	private boolean live = true;
+	private static Random r = new Random();
 	
+	public boolean isGood() {
+		return good;
+	}
 	public boolean isLive() {
 		return live;
 	}
@@ -27,6 +32,8 @@ public class Tank {
 	public Direction dir = Direction.STOP;
 	private Direction ptDir = Direction.D;
 	
+	private int step = r.nextInt((12)+3);
+	
 	public Tank(int x, int y,boolean good) {
 		super();
 		this.x = x;
@@ -37,6 +44,11 @@ public class Tank {
 	public Tank(int x, int y,boolean good, TankClient tc) {
 		this(x, y,good);
 		this.tc = tc;
+	}
+	
+	public Tank(int x,int y,boolean good,TankClient tc,Direction dir){
+		this(x,y,good,tc);
+		this.dir = dir;
 	}
 	
 	public void draw (Graphics g){
@@ -125,6 +137,18 @@ public class Tank {
 		if(y<30)y= 30;
 		if(x+Tank.WIDTH>TankClient.GAME_WIDTH) x = TankClient.GAME_WIDTH - Tank.WIDTH;
 		if(y+Tank.HEIGTH>TankClient.GAME_HEIGTH) y =TankClient.GAME_WIDTH - Tank.HEIGTH;
+		
+		if(!good){		
+			Direction[] dirs = Direction.values();		
+			if(step==0){
+				step=r.nextInt(12)+3;
+				int rn = r.nextInt(dirs.length);
+				dir = dirs[rn];
+			}			
+			step --;
+			
+			if(r.nextInt(40)>38) this.fire(this);
+		}
 	}
 	
 	public void keyPressed(KeyEvent e){
@@ -186,9 +210,10 @@ public class Tank {
 	}
 
 	public Missile fire(Tank k){
+		if(!live) return null;
 		int x = k.x+k.WIDTH/2-Missile.WIDTH/2;
 		int y = k.y+k.HEIGTH/2-Missile.HEIGTH/2;
-		Missile m = new Missile (x,y,k.ptDir,this.tc);
+		Missile m = new Missile (x,y,k.ptDir,this.tc,k.good);
 		tc.missiles.add(m);
 		return m;
 	}

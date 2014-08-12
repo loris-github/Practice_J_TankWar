@@ -119,7 +119,7 @@ public class Tank {
 			bD = true;
 			break;
 		case KeyEvent.VK_S:
-			tc.m = fire(this);
+		fire(tc.myTank);
 			break;
 		}
 		
@@ -164,6 +164,7 @@ public class Tank {
 		int x = k.x+k.WIDTH/2-Missile.WIDTH/2;
 		int y = k.y+k.HEIGTH/2-Missile.HEIGTH/2;
 		Missile m = new Missile (x,y,k.ptDir);
+		tc.missiles.add(m);
 		return m;
 	}
 }

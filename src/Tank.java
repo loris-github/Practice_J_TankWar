@@ -61,9 +61,7 @@ public class Tank {
 		case STOP:
 			break;
 	}
-		if(this.dir!= Direction.STOP){
-			ptDir = this.dir;
-		}
+
 		move();
 	}
 	
@@ -100,6 +98,15 @@ public class Tank {
 			case STOP:
 				break;
 		}
+		
+		if(this.dir!= Direction.STOP){
+			ptDir = this.dir;
+		}
+		
+		if(x<0)x= 0;
+		if(y<30)y= 30;
+		if(x+Tank.WIDTH>TankClient.GAME_WIDTH) x = TankClient.GAME_WIDTH - Tank.WIDTH;
+		if(y+Tank.HEIGTH>TankClient.GAME_HEIGTH) y =TankClient.GAME_WIDTH - Tank.HEIGTH;
 	}
 	
 	public void keyPressed(KeyEvent e){
@@ -163,7 +170,7 @@ public class Tank {
 	public Missile fire(Tank k){
 		int x = k.x+k.WIDTH/2-Missile.WIDTH/2;
 		int y = k.y+k.HEIGTH/2-Missile.HEIGTH/2;
-		Missile m = new Missile (x,y,k.ptDir);
+		Missile m = new Missile (x,y,k.ptDir,this.tc);
 		tc.missiles.add(m);
 		return m;
 	}

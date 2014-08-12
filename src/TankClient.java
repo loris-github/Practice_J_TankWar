@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TankClient extends Frame {
-
+	
 	public static final int GAME_WIDTH = 800 ;
 	public static final int GAME_HEIGTH = 600 ;
-	
+
 	Tank myTank = new Tank (50,50,true,this);
-	Tank enemyTank = new Tank (80,80,false,this);
+	//Tank enemyTank = new Tank (80,80,false,this);
 	Explode e = new Explode(200,200,this);
 	
 	List<Missile> missiles = new ArrayList<Missile>();
 	List<Explode> explodes = new ArrayList<Explode>();
+	List<Tank> tanks = new ArrayList<Tank>();
 	
 	int x =50 ,y = 50;
 	
@@ -24,14 +25,16 @@ public class TankClient extends Frame {
 		//super.paint(g);
 		g.drawString("missiles count:"+missiles.size(), 10, 50);
 		g.drawString("explodes count:"+explodes.size(), 10, 70);
+		g.drawString("tanks count:"+tanks.size(), 10, 90);
 		
 		myTank.draw(g);	
-		enemyTank.draw(g);
+		//enemyTank.draw(g);
 		//e.draw(g);
 		
 		for(int i=0; i<missiles.size();i++){
 			Missile m = missiles.get(i);
-			m.hitTank(enemyTank);
+			m.hitTanks(tanks);
+			//m.hitTank(enemyTank);
 			m.draw(g);
 			//if(!m.isLive())missiles.remove(m);
 			//else m.draw(g);
@@ -41,6 +44,12 @@ public class TankClient extends Frame {
 			Explode e = explodes.get(i);
 			e.draw(g);
 			}
+		
+		for(int i = 0; i<tanks.size();i++){
+			Tank t = tanks.get(i);
+			t.draw(g);
+		}
+		
 	}
 	
 	@Override
@@ -58,6 +67,11 @@ public class TankClient extends Frame {
 	}
 
 	public void lauchFrame(){
+		
+		for(int i = 0;i<10;i++){
+			tanks.add(new Tank(50+40*(i+1),50,false,this));
+		}
+		
 		this.setLocation(400,300);
 		this.setSize(GAME_WIDTH,GAME_HEIGTH);
 		this.setTitle("TankWar");

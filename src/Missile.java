@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 public class Missile {
 	public static final int XSPEED = 6;
@@ -92,4 +93,15 @@ public class Missile {
 		}
 		return false;
 	}
+	
+	public boolean hitTanks(List<Tank> tanks){
+		for(int i= 0 ;i<tanks.size();i++){
+			if(hitTank(tanks.get(i))){
+				return true;
+			}
+		}		
+		return false;
+	}
+	
+	
 }

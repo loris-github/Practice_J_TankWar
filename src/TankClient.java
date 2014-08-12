@@ -21,6 +21,8 @@ public class TankClient extends Frame {
 	
 	Image offScreenImage = null;
 	
+	Blood b = new Blood();
+	
 	@Override
 	public void paint(Graphics g) {
 		//super.paint(g);
@@ -34,8 +36,10 @@ public class TankClient extends Frame {
 		myTank.collidesWithWall(w1);
 		myTank.draw(g);	
 		w1.draw(g);
+		b.draw(g);
 		//enemyTank.draw(g);
 		//e.draw(g);
+		myTank.eatBlood(b);
 		
 		for(int i=0; i<missiles.size();i++){
 			Missile m = missiles.get(i);

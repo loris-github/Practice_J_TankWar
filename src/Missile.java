@@ -12,6 +12,11 @@ public class Missile {
 	int x ,y ;
 	Tank.Direction dir = null ;
 	private boolean good;
+	
+	public boolean isGood() {
+		return good;
+	}
+
 	private boolean live = true;
 	private TankClient tc;
 	
@@ -42,7 +47,9 @@ public class Missile {
 		}
 		
 		Color c = g.getColor();
-		g.setColor(Color.YELLOW);
+		if (this.isGood()) g.setColor(Color.CYAN);
+		else g.setColor(Color.YELLOW);
+		
 		g.fillOval(x, y, WIDTH, HEIGTH);
 		g.setColor(c);
 		move();

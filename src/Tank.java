@@ -36,6 +36,7 @@ public class Tank {
 	public boolean isGood() {
 		return good;
 	}
+	
 	public boolean isLive() {
 		return live;
 	}
@@ -306,6 +307,13 @@ public class Tank {
 			int w = WIDTH * life/100;
 			g.fillRect(x, y-10, w, 10);
 			g.setColor(c);
+		}
+	}
+	
+	public void eatBlood (Blood b){
+		if (this.isGood()&&b.live&&this.isLive()&&this.getRect().intersects(b.getRect())) {
+			this.setLife(100);
+			b.live = false;
 		}
 	}
 }

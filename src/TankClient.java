@@ -6,7 +6,8 @@ public class TankClient extends Frame {
 	public static final int GAME_WIDTH = 800 ;
 	public static final int GAME_HIGHT = 600 ;
 	
-	Tank myTank = new Tank (50,50);
+	Tank myTank = new Tank (50,50,this);
+	Missile m = null;
 	
 	int x =50 ,y = 50;
 	
@@ -15,7 +16,10 @@ public class TankClient extends Frame {
 	@Override
 	public void paint(Graphics g) {
 		//super.paint(g);
-		myTank.draw(g);		
+		myTank.draw(g);	
+		if(this.m!=null){
+			this.m.draw(g);
+		}
 	}
 	
 	@Override

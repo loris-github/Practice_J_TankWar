@@ -5,12 +5,15 @@ public class Tank {
 	public static final int XSPEED = 5;
 	public static final int YSPEED = 5;
 	
-	private int x , y;
+	public static final int WIDTH = 30;
+	public static final int HIGTH = 30;
 	
+	public int x , y;
+	TankClient tc = null;
 	private boolean bL = false,bU = false,bR = false,bD = false;
-	private enum Direction{L,LU,U,RU,R,RD,D,LD,STOP};
+	public enum Direction{L,LU,U,RU,R,RD,D,LD,STOP};
 	
-	private Direction dir = Direction.STOP;
+	public Direction dir = Direction.STOP;
 	
 	public Tank(int x, int y) {
 		super();
@@ -18,10 +21,15 @@ public class Tank {
 		this.y = y;
 	}
 	
+	public Tank(int x, int y, TankClient tc) {
+		this(x, y);
+		this.tc = tc;
+	}
+	
 	public void draw (Graphics g){
 		Color c = g.getColor();
 		g.setColor(Color.RED);
-		g.fillOval(x, y, 30, 30);
+		g.fillOval(x, y, WIDTH, HIGTH);
 		g.setColor(c);
 		move();
 	}
@@ -76,7 +84,10 @@ public class Tank {
 			break;					
 		case KeyEvent.VK_DOWN:
 			bD = true;
-			break;		
+			break;
+		case KeyEvent.VK_S:
+			tc.m = fire(this);
+			break;
 		}
 		
 		locateDirection();
@@ -114,5 +125,12 @@ public class Tank {
 		else if(!bL && !bU && !bR && bD) dir = Direction.D;
 		else if(bL && bU && bR && !bD) dir = Direction.LD;
 		else if(!bL && !bU && !bR && !bD) dir = Direction.STOP;
+	}
+
+	public Missile fire(Tank k){
+		int x = k.x+k.WIDTH/2-Missile.WIDTH/2;
+		int y = k.y+k.HIGTH/2-Missile.HIGTH/2;
+		Missile m = new Missile (x,y,k.dir);
+		return m;
 	}
 }

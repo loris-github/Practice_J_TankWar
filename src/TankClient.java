@@ -2,8 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class TankClient extends Frame {
-	
-
 
 	public static final int GAME_WIDTH = 800 ;
 	public static final int GAME_HIGHT = 600 ;
@@ -78,6 +76,11 @@ public class TankClient extends Frame {
 	}
 
 	private class KeyMonitor extends KeyAdapter {
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			myTank.keyReleased(e);
+		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {

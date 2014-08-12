@@ -83,6 +83,27 @@ public class Tank {
 
 	}
 
+	public void keyReleased(KeyEvent e){
+		int key = e.getKeyCode();
+		
+		switch(key){
+		case KeyEvent.VK_LEFT :
+			bL = false;
+			break;
+		case KeyEvent.VK_UP:
+			bU = false;
+			break;
+		case KeyEvent.VK_RIGHT:
+			bR = false;
+			break;					
+		case KeyEvent.VK_DOWN:
+			bD = false;
+			break;		
+		}
+		
+		locateDirection();
+	}
+	
 	void locateDirection(){
 		if(bL && !bU && !bR && !bD) dir = Direction.L;
 		else if(bL && bU && !bR && !bD) dir = Direction.LU;

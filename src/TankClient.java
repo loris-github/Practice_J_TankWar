@@ -136,9 +136,38 @@ public class TankClient extends Frame {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
+			int key = e.getKeyChar();
+			switch(key){
+			case KeyEvent.VK_1 :
+				addMytank();
+				break;
+			case KeyEvent.VK_2 :
+				addEnemytank();
+				break;
+			}
+			
 			myTank.keyPressed(e);
 			}
 			
 		}
+
+	private void addMytank(){
+		if(myTank == null ||!this.myTank.isLive()) {
+			
+			myTank = new Tank (50,50,true,this,Tank.Direction.STOP);
+		}
+		else System.out.println("you still alive!!!!!!!");
+			
+	}
+	
+	private void addEnemytank(){
+		if(tanks.size()<5){
+			
+			for(int i = 0;i<5;i++){
+				tanks.add(new Tank(50+40*(i+1),50,false,this,Tank.Direction.D));
+			}
+		}
+		else System.out.println("too many tanks!!!!!");
+	}
 		
 }

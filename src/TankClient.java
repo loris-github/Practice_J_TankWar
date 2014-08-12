@@ -9,6 +9,7 @@ public class TankClient extends Frame {
 	public static final int GAME_HEIGTH = 600 ;
 
 	Tank myTank = new Tank (50,50,true,this,Tank.Direction.STOP);
+	Wall w1 = new Wall(200,300,100,200);
 	//Tank enemyTank = new Tank (80,80,false,this);
 	Explode e = new Explode(200,200,this);
 	
@@ -26,8 +27,11 @@ public class TankClient extends Frame {
 		g.drawString("missiles count:"+missiles.size(), 10, 50);
 		g.drawString("explodes count:"+explodes.size(), 10, 70);
 		g.drawString("tanks count:"+tanks.size(), 10, 90);
+		g.drawString("tank localtion:"+"("+myTank.getX()+" , "+myTank.getY()+")" ,10, 110);
 		
+		myTank.collidesWithWall(w1);
 		myTank.draw(g);	
+		w1.draw(g);
 		//enemyTank.draw(g);
 		//e.draw(g);
 		
@@ -35,6 +39,7 @@ public class TankClient extends Frame {
 			Missile m = missiles.get(i);
 			m.hitTanks(tanks);
 			m.hitTank(myTank);
+			m.collidesWithWall(w1);
 			//m.hitTank(enemyTank);
 			m.draw(g);
 			//if(!m.isLive())missiles.remove(m);
@@ -45,12 +50,13 @@ public class TankClient extends Frame {
 			Explode e = explodes.get(i);
 			e.draw(g);
 			}
-		
+
 		for(int i = 0; i<tanks.size();i++){
 			Tank t = tanks.get(i);
+			t.collidesWithWall(this.w1);
+			t.collidesWithTank(tanks);
 			t.draw(g);
 		}
-		
 	}
 	
 	@Override

@@ -9,10 +9,19 @@ public class Tank {
 	public static final int WIDTH = 30;
 	public static final int HEIGTH = 30;
 	
+	private int oldX,oldY;
 	private int x , y;
 	private boolean good;
 	private boolean live = true;
 	private static Random r = new Random();
+	
+	public int getX(){
+		return this.x;
+	}
+	
+	public int getY(){
+		return this.y;
+	}
 	
 	public boolean isGood() {
 		return good;
@@ -26,6 +35,7 @@ public class Tank {
 	}
 
 	TankClient tc = null;
+	//Wall w = null;
 	private boolean bL = false,bU = false,bR = false,bD = false;
 	public enum Direction{L,LU,U,RU,R,RD,D,LD,STOP};
 	
@@ -90,12 +100,14 @@ public class Tank {
 			break;
 		case STOP:
 			break;
-	}
-
+	}	
 		move();
 	}
 	
 	void move(){
+		oldX = x;
+		oldY = y;
+		
 		switch(dir){
 			case L:
 				x-= XSPEED;
@@ -133,10 +145,11 @@ public class Tank {
 			ptDir = this.dir;
 		}
 		
-		if(x<0)x= 0;
-		if(y<30)y= 30;
+		if(x<0) x= 0;
+		if(y<30) y= 30;
+	
 		if(x+Tank.WIDTH>TankClient.GAME_WIDTH) x = TankClient.GAME_WIDTH - Tank.WIDTH;
-		if(y+Tank.HEIGTH>TankClient.GAME_HEIGTH) y =TankClient.GAME_WIDTH - Tank.HEIGTH;
+		if(y+Tank.HEIGTH>TankClient.GAME_HEIGTH) y =TankClient.GAME_HEIGTH - Tank.HEIGTH;
 		
 		if(!good){		
 			Direction[] dirs = Direction.values();		
@@ -147,7 +160,8 @@ public class Tank {
 			}			
 			step --;
 			
-			if(r.nextInt(40)>38) this.fire(this);
+		if(r.nextInt(40)>38) this.fire(this);
+		
 		}
 	}
 	
@@ -205,7 +219,7 @@ public class Tank {
 		else if(!bL && !bU && bR && !bD) dir = Direction.R;
 		else if(!bL && !bU && bR && bD) dir = Direction.RD;
 		else if(!bL && !bU && !bR && bD) dir = Direction.D;
-		else if(bL && bU && bR && !bD) dir = Direction.LD;
+		else if(bL && !bU && !bR && bD) dir = Direction.LD;
 		else if(!bL && !bU && !bR && !bD) dir = Direction.STOP;
 	}
 
@@ -221,4 +235,121 @@ public class Tank {
 	public Rectangle getRect(){
 		return new Rectangle(x,y,WIDTH,HEIGTH);
 		}
+	
+	public boolean collidesWithWall(Wall w){
+		if(this.getRect().intersects(w.getRect())&&this.live&&w.isLive()) {	
+			int newY_Wall = y;			
+			y = oldY;			
+			if(this.getRect().intersects(w.getRect())){
+				x = oldX;
+				y = newY_Wall;
+			return true;
+			}
+		}
+		return false;	
+	}
+	
+	public boolean collidesWithTank(java.util.List<Tank> tanks){
+		for (int i = 0;i<tanks.size();i++){
+			Tank t = tanks.get(i);
+			if (this!=t){
+				if(this.getRect().intersects(t.getRect())&&this.live&&t.isLive()) {	
+					int newY_Wall = y;			
+					y = oldY;			
+					if(this.getRect().intersects(t.getRect())){
+						x = oldX;
+						y = newY_Wall;
+					return true;
+					}
+				}				
+			}						
+		}
+		return false;
+	}
 }
+
+
+/*		
+//left of wall
+if(x+Tank.WIDTH > tc.w1.getX() && y+Tank.HEIGTH>tc.w1.getY() && y+Tank.HEIGTH< tc.w1.getY()+tc.w1.getHeigth()&&(this.dir==Direction.R||this.dir==Direction.RU||this.dir==Direction.RD)) {
+x = tc.w1.getX()-Tank.WIDTH;
+System.out.println("left");
+}
+
+//right of wall
+if(x < tc.w1.getX()+tc.w1.getWidth()&& y+Tank.HEIGTH>tc.w1.getY() && y+Tank.HEIGTH< tc.w1.getY()+tc.w1.getHeigth()&&(this.dir==Direction.L||this.dir==Direction.LU||this.dir==Direction.LD)) {
+x = tc.w1.getX()+tc.w1.getWidth();
+System.out.println("right");
+}
+//top of wall
+if(y+Tank.HEIGTH > tc.w1.getY() && x+Tank.WIDTH> tc.w1.getX() && x< tc.w1.getX()+tc.w1.getWidth()&&(this.dir==Direction.D||this.dir==Direction.LD||this.dir==Direction.RD)){
+y = tc.w1.getY() - Tank.HEIGTH;
+System.out.println("top");
+}
+//bottom of wall
+if(y < tc.w1.getY()+tc.w1.getHeigth() && x+Tank.WIDTH> tc.w1.getX() && x< tc.w1.getX()+tc.w1.getWidth()&&(this.dir==Direction.U||this.dir==Direction.LU||this.dir==Direction.RU)){
+y = tc.w1.getY()+tc.w1.getHeigth();
+System.out.println("bottom");
+}
+
+
+
+if (this.dir == Direction.L||this.dir == Direction.R){
+if(y+Tank.HEIGTH>tc.w1.getY()&&y<tc.w1.getY()+tc.w1.getHeigth()) x = oldX;
+}
+
+else if(this.dir == Direction.U||this.dir==Direction.D){
+if(x+Tank.WIDTH>tc.w1.getX()&&x<tc.w1.getX()+tc.w1.getWidth()) y =oldY;
+}
+
+else if(this.dir == Direction.LU){
+if(y+Tank.HEIGTH>tc.w1.getY()
+&&y<tc.w1.getY()+tc.w1.getHeigth()
+&&((tc.w1.getY()+tc.w1.getHeigth()-y>tc.w1.getX()+tc.w1.getWidth()-x)||(y+Tank.HEIGTH-tc.w1.getY()>tc.w1.getX()+tc.w1.getWidth()-x))){
+x = oldX;
+System.out.println("LU-1");
+}
+
+else if(x+Tank.WIDTH>tc.w1.getX()
+	&&x<tc.w1.getX()+tc.w1.getWidth()
+	&&((tc.w1.getX()+tc.w1.getWidth()-x>tc.w1.getY()+tc.w1.getHeigth()-y)||(x+Tank.WIDTH-tc.w1.getX()>tc.w1.getY()+tc.w1.getHeigth()-y))){
+y = oldY;
+System.out.println("LU-2");
+}
+
+}
+else if(this.dir == Direction.RU){
+if(y+Tank.HEIGTH>tc.w1.getY()
+&&y<tc.w1.getY()+tc.w1.getHeigth()
+&&tc.w1.getY()+tc.w1.getHeigth()-y>tc.w1.getX()+tc.w1.getWidth()-x) 
+x = oldX;
+else if(x+Tank.WIDTH>=tc.w1.getX()
+	&&x<tc.w1.getX()+tc.w1.getWidth()
+	&&tc.w1.getY()+tc.w1.getHeigth()-y<tc.w1.getX()+tc.w1.getWidth()-x) 
+y = oldY;
+}
+else if(this.dir == Direction.RD){
+if(y+Tank.HEIGTH>tc.w1.getY()
+&&y<tc.w1.getY()+tc.w1.getHeigth()
+&&tc.w1.getY()+tc.w1.getHeigth()-y>x+Tank.WIDTH-tc.w1.getX()) 
+x = oldX;
+else if(x+Tank.WIDTH>tc.w1.getX()
+	&&x<tc.w1.getX()+tc.w1.getWidth()
+	&&tc.w1.getY()+tc.w1.getHeigth()-y<x+Tank.WIDTH-tc.w1.getX()) 
+y = oldY;
+}
+else if(this.dir == Direction.LD){
+if(y+Tank.HEIGTH>tc.w1.getY()
+&&y<tc.w1.getY()+tc.w1.getHeigth()
+&&tc.w1.getY()+tc.w1.getHeigth()-y>tc.w1.getX()+tc.w1.getWidth()-x)
+x = oldX;
+else if(x+Tank.WIDTH>tc.w1.getX()
+	&&x<tc.w1.getX()+tc.w1.getWidth()
+	&&tc.w1.getY()+tc.w1.getHeigth()-y<tc.w1.getX()+tc.w1.getWidth()-x) 
+y = oldY;
+}
+
+else{
+x =oldX;
+y =oldY;
+}*/

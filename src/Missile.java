@@ -109,5 +109,14 @@ public class Missile {
 		return false;
 	}
 	
+	public boolean collidesWithWall(Wall w){
+		if(this.live && this.getRect().intersects(w.getRect())&&w.isLive()){
+			this.live = false;
+			Explode e = new Explode(x,y,tc);
+			tc.explodes.add(e);
+			return true;
+		}	
+		return true;
+	}
 	
 }

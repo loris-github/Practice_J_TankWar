@@ -1,7 +1,9 @@
 package com.test.TankWar;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Missile {
 	public static final int XSPEED = 6;
@@ -13,6 +15,30 @@ public class Missile {
 	int x ,y ;
 	Direction dir = null ;
 	private boolean good;
+	
+	private static Toolkit tk = Toolkit.getDefaultToolkit();	
+	private static Image[] missileImages = null;
+	private static Map<String,Image> imgs = new HashMap<String,Image>();
+	static{
+		missileImages = new Image[]{
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileL.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileLU.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileU.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileRU.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileR.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileRD.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileD.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileLD.gif"))
+		};		
+		imgs.put("L", missileImages[0]);
+		imgs.put("LU", missileImages[1]);
+		imgs.put("U", missileImages[2]);
+		imgs.put("RU", missileImages[3]);
+		imgs.put("R", missileImages[4]);
+		imgs.put("RD", missileImages[5]);
+		imgs.put("D", missileImages[6]);
+		imgs.put("LD", missileImages[7]);		
+	}
 	
 	public boolean isGood() {
 		return good;
@@ -46,13 +72,51 @@ public class Missile {
 			tc.missiles.remove(this);
 			return;
 		}
-		
+/*		
 		Color c = g.getColor();
 		if (this.isGood()) g.setColor(Color.CYAN);
-		else g.setColor(Color.YELLOW);
-		
+		else g.setColor(Color.YELLOW);		
 		g.fillOval(x, y, WIDTH, HEIGTH);
 		g.setColor(c);
+		*/
+		
+		switch(this.dir){
+		case L:
+			g.drawImage(imgs.get("L"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x, y+HEIGTH/2);
+			break;
+		case LU:
+			g.drawImage(imgs.get("LU"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x, y);
+			break;
+		case U:
+			g.drawImage(imgs.get("U"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+HEIGTH/2, y);
+			break;
+		case RU:
+			g.drawImage(imgs.get("RU"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+Tank.WIDTH, y);
+			break;
+		case R:
+			g.drawImage(imgs.get("R"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+Tank.WIDTH, y+HEIGTH/2);
+			break;
+		case RD:
+			g.drawImage(imgs.get("RD"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+Tank.WIDTH, y+HEIGTH);
+			break;
+		case D:
+			g.drawImage(imgs.get("D"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+Tank.WIDTH/2, y+HEIGTH);
+			break;
+		case LD:
+			g.drawImage(imgs.get("LD"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x, y+HEIGTH);
+			break;
+		case STOP:
+			break;
+	}	
+		
 		move();
 	}
 	

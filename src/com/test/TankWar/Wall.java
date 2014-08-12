@@ -44,7 +44,7 @@ public class Wall {
 	public void draw (Graphics g){
 		
 		Color c = g.getColor();
-		g.setColor(Color.WHITE);
+		g.setColor(Color.DARK_GRAY);
 		g.fillRect(x, y, width, heigth);
 		g.setColor(c);
 	}

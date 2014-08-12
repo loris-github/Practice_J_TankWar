@@ -1,8 +1,8 @@
 package com.test.TankWar;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.*;
 
 public class TankClient extends Frame {
 	
@@ -27,12 +27,14 @@ public class TankClient extends Frame {
 	@Override
 	public void paint(Graphics g) {
 		//super.paint(g);
+		Color c = g.getColor();
+		g.setColor(Color.YELLOW);
 		g.drawString("missiles count:"+missiles.size(), 10, 50);
 		g.drawString("explodes count:"+explodes.size(), 10, 70);
 		g.drawString("tanks count:"+tanks.size(), 10, 90);
 		g.drawString("tank localtion:"+"("+myTank.getX()+" , "+myTank.getY()+")" ,10, 110);
 		g.drawString("myTank HP : "+myTank.getLife(), 10, 130);
-		
+		g.setColor(c);
 		
 		myTank.collidesWithWall(w1);
 		myTank.draw(g);	
@@ -73,7 +75,7 @@ public class TankClient extends Frame {
 		}
 		Graphics gOffScreen = offScreenImage.getGraphics();
 		Color c = gOffScreen.getColor();
-		gOffScreen.setColor(Color.DARK_GRAY);
+		gOffScreen.setColor(Color.BLACK);
 		gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGTH);
 		gOffScreen.setColor(c);
 		paint (gOffScreen);
@@ -81,8 +83,9 @@ public class TankClient extends Frame {
 	}
 
 	public void lauchFrame(){
+		int initTankCount =PropertyMgr.getPropertyValue("initTankCount");
 		
-		for(int i = 0;i<10;i++){
+		for(int i = 0;i<initTankCount;i++){
 			tanks.add(new Tank(50+40*(i+1),50,false,this,Direction.D));
 		}
 		
@@ -162,9 +165,9 @@ public class TankClient extends Frame {
 	}
 	
 	private void addEnemytank(){
-		if(tanks.size()<5){
+		if(tanks.size()<20){
 			
-			for(int i = 0;i<5;i++){
+			for(int i = 0;i<PropertyMgr.getPropertyValue("addTanksPerTime");i++){
 				tanks.add(new Tank(50+40*(i+1),50,false,this,Direction.D));
 			}
 		}

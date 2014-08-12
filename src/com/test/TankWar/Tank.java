@@ -16,6 +16,31 @@ public class Tank {
 	private boolean live = true;
 	private BloodBar bb = new BloodBar();
 	private int life =100;
+	
+	private static Toolkit tk = Toolkit.getDefaultToolkit();	
+	private static Image[] tankImages = null;
+	private static Map<String,Image> imgs = new HashMap<String,Image>();
+	static{
+		tankImages = new Image[]{
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankL.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankLU.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankU.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankRU.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankR.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankRD.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankD.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankLD.gif"))
+		};		
+		imgs.put("L", tankImages[0]);
+		imgs.put("LU", tankImages[1]);
+		imgs.put("U", tankImages[2]);
+		imgs.put("RU", tankImages[3]);
+		imgs.put("R", tankImages[4]);
+		imgs.put("RD", tankImages[5]);
+		imgs.put("D", tankImages[6]);
+		imgs.put("LD", tankImages[7]);		
+	}
+
 	public int getLife() {
 		return life;
 	}
@@ -78,39 +103,47 @@ public class Tank {
 			tc.tanks.remove(this);
 			return;
 		}
-		
+/*		
 		Color c = g.getColor();
 		if(good) g.setColor(Color.RED);
 		else g.setColor(Color.BLUE);
 		g.fillOval(x, y, WIDTH, HEIGTH);
 		g.setColor(c);
-		
+		*/
 		if(this.isGood()) bb.draw(g);
 		
 		switch(ptDir){
 		case L:
-			g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x, y+HEIGTH/2);
+			g.drawImage(imgs.get("L"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x, y+HEIGTH/2);
 			break;
 		case LU:
-			g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x, y);
+			g.drawImage(imgs.get("LU"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x, y);
 			break;
 		case U:
-			g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+HEIGTH/2, y);
+			g.drawImage(imgs.get("U"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+HEIGTH/2, y);
 			break;
 		case RU:
-			g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+Tank.WIDTH, y);
+			g.drawImage(imgs.get("RU"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+Tank.WIDTH, y);
 			break;
 		case R:
-			g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+Tank.WIDTH, y+HEIGTH/2);
+			g.drawImage(imgs.get("R"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+Tank.WIDTH, y+HEIGTH/2);
 			break;
 		case RD:
-			g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+Tank.WIDTH, y+HEIGTH);
+			g.drawImage(imgs.get("RD"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+Tank.WIDTH, y+HEIGTH);
 			break;
 		case D:
-			g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+Tank.WIDTH/2, y+HEIGTH);
+			g.drawImage(imgs.get("D"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x+Tank.WIDTH/2, y+HEIGTH);
 			break;
 		case LD:
-			g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x, y+HEIGTH);
+			g.drawImage(imgs.get("LD"),x,y,null);
+			//g.drawLine(x+Tank.WIDTH/2, y+Tank.HEIGTH/2, x, y+HEIGTH);
 			break;
 		case STOP:
 			break;

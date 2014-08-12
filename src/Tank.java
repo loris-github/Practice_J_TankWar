@@ -13,6 +13,16 @@ public class Tank {
 	private int x , y;
 	private boolean good;
 	private boolean live = true;
+	private BloodBar bb = new BloodBar();
+	private int life =100;
+	public int getLife() {
+		return life;
+	}
+
+	public void setLife(int life) {
+		this.life = life;
+	}
+
 	private static Random r = new Random();
 	
 	public int getX(){
@@ -72,6 +82,8 @@ public class Tank {
 		else g.setColor(Color.BLUE);
 		g.fillOval(x, y, WIDTH, HEIGTH);
 		g.setColor(c);
+		
+		if(this.isGood()) bb.draw(g);
 		
 		switch(ptDir){
 		case L:
@@ -184,6 +196,9 @@ public class Tank {
 		case KeyEvent.VK_S:
 		fire(tc.myTank);
 			break;
+		case KeyEvent.VK_A:
+		superFire(tc.myTank);
+			break;
 		}
 		
 		locateDirection();
@@ -223,13 +238,29 @@ public class Tank {
 		else if(!bL && !bU && !bR && !bD) dir = Direction.STOP;
 	}
 
-	public Missile fire(Tank k){
+	public Missile fire(Tank t){
 		if(!live) return null;
-		int x = k.x+k.WIDTH/2-Missile.WIDTH/2;
-		int y = k.y+k.HEIGTH/2-Missile.HEIGTH/2;
-		Missile m = new Missile (x,y,k.ptDir,this.tc,k.good);
+		int x = t.x+t.WIDTH/2-Missile.WIDTH/2;
+		int y = t.y+t.HEIGTH/2-Missile.HEIGTH/2;
+		Missile m = new Missile (x,y,t.ptDir,this.tc,t.good);
 		tc.missiles.add(m);
 		return m;
+	}
+	
+	public Missile fire(Tank t, Direction dir){
+		if(!live) return null;
+		int x = t.x+t.WIDTH/2-Missile.WIDTH/2;
+		int y = t.y+t.HEIGTH/2-Missile.HEIGTH/2;
+		Missile m = new Missile (x,y,dir,this.tc,t.good);
+		tc.missiles.add(m);
+		return m;
+	}
+	
+	public void superFire(Tank t){
+		Direction[] dirs = Direction.values();
+		for(int i = 0 ; i<8;i++){
+			fire(t,dirs[i]);
+		}
 	}
 	
 	public Rectangle getRect(){
@@ -265,6 +296,17 @@ public class Tank {
 			}						
 		}
 		return false;
+	}
+	
+	private class BloodBar{
+		public void draw (Graphics g){
+			Color c = g.getColor();
+			g.setColor(Color.RED);
+			g.drawRect(x, y-10, WIDTH, 10);
+			int w = WIDTH * life/100;
+			g.fillRect(x, y-10, w, 10);
+			g.setColor(c);
+		}
 	}
 }
 

@@ -28,6 +28,8 @@ public class TankClient extends Frame {
 		g.drawString("explodes count:"+explodes.size(), 10, 70);
 		g.drawString("tanks count:"+tanks.size(), 10, 90);
 		g.drawString("tank localtion:"+"("+myTank.getX()+" , "+myTank.getY()+")" ,10, 110);
+		g.drawString("myTank HP : "+myTank.getLife(), 10, 130);
+		
 		
 		myTank.collidesWithWall(w1);
 		myTank.draw(g);	

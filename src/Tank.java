@@ -8,8 +8,18 @@ public class Tank {
 	public static final int WIDTH = 30;
 	public static final int HEIGTH = 30;
 	
-	public int x , y;
-	public boolean good;
+	private int x , y;
+	private boolean good;
+	private boolean live = true;
+	
+	public boolean isLive() {
+		return live;
+	}
+
+	public void setLive(boolean live) {
+		this.live = live;
+	}
+
 	TankClient tc = null;
 	private boolean bL = false,bU = false,bR = false,bD = false;
 	public enum Direction{L,LU,U,RU,R,RD,D,LD,STOP};
@@ -30,6 +40,7 @@ public class Tank {
 	}
 	
 	public void draw (Graphics g){
+		if(!live) return;
 		Color c = g.getColor();
 		if(good) g.setColor(Color.RED);
 		else g.setColor(Color.BLUE);
@@ -177,4 +188,8 @@ public class Tank {
 		tc.missiles.add(m);
 		return m;
 	}
+	
+	public Rectangle getRect(){
+		return new Rectangle(x,y,WIDTH,HEIGTH);
+		}
 }

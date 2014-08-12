@@ -9,6 +9,7 @@ public class Tank {
 	public static final int HEIGTH = 30;
 	
 	public int x , y;
+	public boolean good;
 	TankClient tc = null;
 	private boolean bL = false,bU = false,bR = false,bD = false;
 	public enum Direction{L,LU,U,RU,R,RD,D,LD,STOP};
@@ -16,20 +17,22 @@ public class Tank {
 	public Direction dir = Direction.STOP;
 	private Direction ptDir = Direction.D;
 	
-	public Tank(int x, int y) {
+	public Tank(int x, int y,boolean good) {
 		super();
 		this.x = x;
 		this.y = y;
+		this.good = good;
 	}
 	
-	public Tank(int x, int y, TankClient tc) {
-		this(x, y);
+	public Tank(int x, int y,boolean good, TankClient tc) {
+		this(x, y,good);
 		this.tc = tc;
 	}
 	
 	public void draw (Graphics g){
 		Color c = g.getColor();
-		g.setColor(Color.RED);
+		if(good) g.setColor(Color.RED);
+		else g.setColor(Color.BLUE);
 		g.fillOval(x, y, WIDTH, HEIGTH);
 		g.setColor(c);
 		

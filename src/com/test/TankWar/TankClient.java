@@ -1,3 +1,4 @@
+package com.test.TankWar;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ public class TankClient extends Frame {
 	public static final int GAME_WIDTH = 800 ;
 	public static final int GAME_HEIGTH = 600 ;
 
-	Tank myTank = new Tank (50,50,true,this,Tank.Direction.STOP);
+	Tank myTank = new Tank (50,50,true,this,Direction.STOP);
 	Wall w1 = new Wall(200,300,100,200);
 	//Tank enemyTank = new Tank (80,80,false,this);
 	Explode e = new Explode(200,200,this);
@@ -82,7 +83,7 @@ public class TankClient extends Frame {
 	public void lauchFrame(){
 		
 		for(int i = 0;i<10;i++){
-			tanks.add(new Tank(50+40*(i+1),50,false,this,Tank.Direction.D));
+			tanks.add(new Tank(50+40*(i+1),50,false,this,Direction.D));
 		}
 		
 		this.setLocation(400,300);
@@ -154,7 +155,7 @@ public class TankClient extends Frame {
 	private void addMytank(){
 		if(myTank == null ||!this.myTank.isLive()) {
 			
-			myTank = new Tank (50,50,true,this,Tank.Direction.STOP);
+			myTank = new Tank (50,50,true,this,Direction.STOP);
 		}
 		else System.out.println("you still alive!!!!!!!");
 			
@@ -164,7 +165,7 @@ public class TankClient extends Frame {
 		if(tanks.size()<5){
 			
 			for(int i = 0;i<5;i++){
-				tanks.add(new Tank(50+40*(i+1),50,false,this,Tank.Direction.D));
+				tanks.add(new Tank(50+40*(i+1),50,false,this,Direction.D));
 			}
 		}
 		else System.out.println("too many tanks!!!!!");

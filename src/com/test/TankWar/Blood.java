@@ -1,3 +1,4 @@
+package com.test.TankWar;
 import java.awt.*;
 public class Blood {
 	int x,y,w,h;

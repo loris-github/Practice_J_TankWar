@@ -1,3 +1,4 @@
+package com.test.TankWar;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -48,7 +49,7 @@ public class Tank {
 	TankClient tc = null;
 	//Wall w = null;
 	private boolean bL = false,bU = false,bR = false,bD = false;
-	public enum Direction{L,LU,U,RU,R,RD,D,LD,STOP};
+	//public enum Direction{L,LU,U,RU,R,RD,D,LD,STOP};
 	
 	public Direction dir = Direction.STOP;
 	private Direction ptDir = Direction.D;

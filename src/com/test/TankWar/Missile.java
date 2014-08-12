@@ -1,3 +1,4 @@
+package com.test.TankWar;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -10,7 +11,7 @@ public class Missile {
 	public static final int HEIGTH = 10;
 	
 	int x ,y ;
-	Tank.Direction dir = null ;
+	Direction dir = null ;
 	private boolean good;
 	
 	public boolean isGood() {
@@ -24,18 +25,18 @@ public class Missile {
 		return live;
 	}
 
-	public Missile(int x, int y,Tank.Direction dir){
+	public Missile(int x, int y,Direction dir){
 		this.x = x;
 		this.y = y;
 		this.dir = dir;	
 	}
 	
-	public Missile(int x,int y,Tank.Direction dir,TankClient tc){
+	public Missile(int x,int y,Direction dir,TankClient tc){
 		this(x,y,dir);
 		this.tc = tc;
 	}
 	
-	public Missile(int x,int y,Tank.Direction dir,TankClient tc,boolean good){
+	public Missile(int x,int y,Direction dir,TankClient tc,boolean good){
 		this(x,y,dir,tc);
 		this.good = good;
 	}

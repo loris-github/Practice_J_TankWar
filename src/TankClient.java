@@ -3,9 +3,11 @@ import java.awt.event.*;
 
 public class TankClient extends Frame {
 	
-	public static final int GAME_WIGTH = 800 ;
-	public static final int GAME_HIGTH = 600 ;			
 
+
+	public static final int GAME_WIDTH = 800 ;
+	public static final int GAME_HIGHT = 600 ;
+	
 	int x =50 ,y = 50;
 	
 	Image offScreenImage = null;
@@ -18,21 +20,17 @@ public class TankClient extends Frame {
 		g.fillOval(x, y, 30, 30);
 		g.setColor(c);
 		
-		y+=5;
-		if(y>600){
-			y=50;
-		}
 	}
 	
 	@Override
 	public void update(Graphics g) {
 		if(offScreenImage==null){
-			offScreenImage = this.createImage(GAME_WIGTH, GAME_HIGTH);
+			offScreenImage = this.createImage(GAME_WIDTH, GAME_HIGHT);
 		}
 		Graphics gOffScreen = offScreenImage.getGraphics();
 		Color c = gOffScreen.getColor();
 		gOffScreen.setColor(Color.DARK_GRAY);
-		gOffScreen.fillRect(0, 0, GAME_WIGTH, GAME_HIGTH);
+		gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HIGHT);
 		gOffScreen.setColor(c);
 		paint (gOffScreen);
 		g.drawImage(offScreenImage, 0, 0, null);
@@ -40,7 +38,7 @@ public class TankClient extends Frame {
 
 	public void lauchFrame(){
 		this.setLocation(400,300);
-		this.setSize(GAME_WIGTH,GAME_HIGTH);
+		this.setSize(GAME_WIDTH,GAME_HIGHT);
 		this.setTitle("TankWar");
 		this.addWindowListener(new WindowAdapter(){
 
@@ -53,6 +51,8 @@ public class TankClient extends Frame {
 		this.setBackground(Color.DARK_GRAY);
 		this.setVisible(true);
 		this.setResizable(false);
+		
+		this.addKeyListener(new KeyMonitor());
 		
 		new Thread(new PaintThread()).start();
 		
@@ -79,4 +79,30 @@ public class TankClient extends Frame {
 		}
 	}
 
+	private class KeyMonitor extends KeyAdapter {
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			int key = e.getKeyCode();
+			
+			switch(key){
+				case KeyEvent.VK_LEFT :
+					x -= 5;
+					break;
+				case KeyEvent.VK_UP:
+					y -= 5;
+					break;
+				case KeyEvent.VK_RIGHT:
+					x += 5;
+					break;					
+				case KeyEvent.VK_DOWN:
+					y += 5;
+					break;
+			}
+			if(key == KeyEvent.VK_RIGHT){
+				x += 5;
+			}
+		}
+		
+	}
 }

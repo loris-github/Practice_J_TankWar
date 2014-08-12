@@ -3,7 +3,12 @@ import java.awt.event.*;
 
 public class TankClient extends Frame {
 	
+	public static final int GAME_WIGTH = 800 ;
+	public static final int GAME_HIGTH = 600 ;			
+
 	int x =50 ,y = 50;
+	
+	Image offScreenImage = null;
 	
 	@Override
 	public void paint(Graphics g) {
@@ -13,12 +18,29 @@ public class TankClient extends Frame {
 		g.fillOval(x, y, 30, 30);
 		g.setColor(c);
 		
-		y+=50;
+		y+=5;
+		if(y>600){
+			y=50;
+		}
+	}
+	
+	@Override
+	public void update(Graphics g) {
+		if(offScreenImage==null){
+			offScreenImage = this.createImage(GAME_WIGTH, GAME_HIGTH);
+		}
+		Graphics gOffScreen = offScreenImage.getGraphics();
+		Color c = gOffScreen.getColor();
+		gOffScreen.setColor(Color.DARK_GRAY);
+		gOffScreen.fillRect(0, 0, GAME_WIGTH, GAME_HIGTH);
+		gOffScreen.setColor(c);
+		paint (gOffScreen);
+		g.drawImage(offScreenImage, 0, 0, null);
 	}
 
 	public void lauchFrame(){
 		this.setLocation(400,300);
-		this.setSize(800,600);
+		this.setSize(GAME_WIGTH,GAME_HIGTH);
 		this.setTitle("TankWar");
 		this.addWindowListener(new WindowAdapter(){
 
@@ -48,7 +70,7 @@ public class TankClient extends Frame {
 			while(true){
 				repaint();
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(50);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

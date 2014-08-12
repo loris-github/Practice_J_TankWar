@@ -8,18 +8,16 @@ public class TankClient extends Frame {
 	public static final int GAME_WIDTH = 800 ;
 	public static final int GAME_HIGHT = 600 ;
 	
+	Tank myTank = new Tank (50,50);
+	
 	int x =50 ,y = 50;
 	
 	Image offScreenImage = null;
 	
 	@Override
 	public void paint(Graphics g) {
-		super.paint(g);
-		Color c = g.getColor();
-		g.setColor(Color.RED);
-		g.fillOval(x, y, 30, 30);
-		g.setColor(c);
-		
+		//super.paint(g);
+		myTank.draw(g);		
 	}
 	
 	@Override
@@ -83,26 +81,9 @@ public class TankClient extends Frame {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			int key = e.getKeyCode();
+			myTank.keyPressed(e);
+			}
 			
-			switch(key){
-				case KeyEvent.VK_LEFT :
-					x -= 5;
-					break;
-				case KeyEvent.VK_UP:
-					y -= 5;
-					break;
-				case KeyEvent.VK_RIGHT:
-					x += 5;
-					break;					
-				case KeyEvent.VK_DOWN:
-					y += 5;
-					break;
-			}
-			if(key == KeyEvent.VK_RIGHT){
-				x += 5;
-			}
 		}
 		
-	}
 }

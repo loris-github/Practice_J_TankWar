@@ -4,7 +4,7 @@ import java.awt.event.*;
 public class TankClient extends Frame {
 
 	public static final int GAME_WIDTH = 800 ;
-	public static final int GAME_HIGHT = 600 ;
+	public static final int GAME_HEIGTH = 600 ;
 	
 	Tank myTank = new Tank (50,50,this);
 	Missile m = null;
@@ -25,12 +25,12 @@ public class TankClient extends Frame {
 	@Override
 	public void update(Graphics g) {
 		if(offScreenImage==null){
-			offScreenImage = this.createImage(GAME_WIDTH, GAME_HIGHT);
+			offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGTH);
 		}
 		Graphics gOffScreen = offScreenImage.getGraphics();
 		Color c = gOffScreen.getColor();
 		gOffScreen.setColor(Color.DARK_GRAY);
-		gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HIGHT);
+		gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGTH);
 		gOffScreen.setColor(c);
 		paint (gOffScreen);
 		g.drawImage(offScreenImage, 0, 0, null);
@@ -38,7 +38,7 @@ public class TankClient extends Frame {
 
 	public void lauchFrame(){
 		this.setLocation(400,300);
-		this.setSize(GAME_WIDTH,GAME_HIGHT);
+		this.setSize(GAME_WIDTH,GAME_HEIGTH);
 		this.setTitle("TankWar");
 		this.addWindowListener(new WindowAdapter(){
 

@@ -6,7 +6,7 @@ public class Missile {
 	public static final int YSPEED = 6;
 	
 	public static final int WIDTH = 10;
-	public static final int HIGTH = 10;
+	public static final int HEIGTH = 10;
 	
 	int x ,y ;
 	Tank.Direction dir = null ;
@@ -21,7 +21,7 @@ public class Missile {
 	public void draw (Graphics g){
 		Color c = g.getColor();
 		g.setColor(Color.YELLOW);
-		g.fillOval(x, y, WIDTH, HIGTH);
+		g.fillOval(x, y, WIDTH, HEIGTH);
 		g.setColor(c);
 		move();
 	}
